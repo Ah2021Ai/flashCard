@@ -1,10 +1,21 @@
-import React from 'react';
-import { FlatList, SafeAreaView } from "react-native"
+import React, { useEffect } from 'react';
+import { FlatList } from "react-native"
 import Deck from './Deck';
-import decks from '../utils/_data';
+import {getDecks} from '../utils/api';
 
 
 const Decks = () => {
+    const [decks, setDecks] = React.useState([])
+    useEffect(() => {
+        let cancel = false;
+        getDecks().then((res) => {
+            if (cancel) return;
+            setDecks(res);
+        })
+        return () => {
+            cancel = true
+        }
+    }, [decks])
     const renderItem = ({ item }) => (
         <Deck
             item={item}
@@ -12,9 +23,9 @@ const Decks = () => {
     )
     return (
         <FlatList
-            data={Object.values(decks)}
+            data={decks}
             renderItem={renderItem}
-            keyItem={(item) => item.title}
+            keyExtractor={(item) => item.title}
         />
     )
 }
