@@ -11,3 +11,6 @@ yarn install or (npm install)
 ```
 yarn start or (npm start)
 ```
+
+## TESTED PLATFORMS
+Tested on android (emulator and physical device)
